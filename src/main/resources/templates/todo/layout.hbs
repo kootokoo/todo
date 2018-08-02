@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  {{> header}}
+</head>
+
+<body>
+<div id="main-container" class="main-container">
+  <div class="main-content">
+    {{#block "content" }}
+    {{/block}}
+  </div>
+</div>
+</body>
+
+{{> scripts}}
+{{#block "page-script" }}{{/block}}
