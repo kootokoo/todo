@@ -1,23 +1,21 @@
 <div class="col-md-12">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#savePostsModal">todo 등록</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTodoModal">todo 등록</button>
 </div>
 
-<div class="modal fade" id="savePostsModal" tabindex="-1" role="dialog" aria-labelledby="savePostsLabel" aria-hidden="true">
+<div class="modal fade" id="saveTodoModal" tabindex="-1" role="dialog" aria-labelledby="saveTodoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="savePostsLabel">todo</h5>
+                <h5 class="modal-title" id="saveTodoLabel">todo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="todo">todo</label>
-                        <input type="text" class="form-control" id="title" placeholder="할일을 입력하세요">
-                    </div>
-                </form>
+                <div class="col-md-8 form-group row">
+                        <label class="col-md-5"> Description </label>
+                        <input type="text" class="form-control" id="description" placeholder="할일을 입력하세요">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>

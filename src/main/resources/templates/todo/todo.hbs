@@ -1,13 +1,17 @@
 {{# partial "content" }}
-
+    <div id="sub-content" >
+        {{> todo/todotable}}
+    </div>
     <div>
         {{> todo/newtodo}}
     </div>
 
-    <div id="sub-content" >
-        {{> todo/todotable}}
-    </div>
+{{/partial}}
 
+{{# partial "page-script" }}
+    <script src="/js/app/newtodo.js"></script>
+    <script src="/js/app/edittodo.js"></script>
+    <script src="/js/app/donetodo.js"></script>
 {{/partial}}
 
 {{>layout}}

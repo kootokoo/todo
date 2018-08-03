@@ -6,6 +6,7 @@ import com.koo.todo.application.vo.ResponseTodo;
 import com.koo.todo.domain.Todo;
 import com.koo.todo.domain.TodoNotFoundException;
 import com.koo.todo.domain.TodoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,42 +20,42 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class TodoService {
-	@Autowired
-	private TodoRepository todoRepository;
+    @Autowired
+    private TodoRepository todoRepository;
 
-	public List<ResponseTodo> getTodoList(Pageable listRequest) {
-		return todoRepository.findAll(listRequest).getContent()
-				.stream().map(ResponseTodo::new)
-				.collect(Collectors.toList());
-	}
+    public List<ResponseTodo> getTodoList(Pageable listRequest) {
+        return todoRepository.findAll(listRequest).getContent()
+                .stream().map(ResponseTodo::new)
+                .collect(Collectors.toList());
+    }
 
-	@Transactional
-	public void add(RequestAddTodo requestAddTodo) {
-		Todo newTodo = Todo.builder()
-				.description(requestAddTodo.getDescription())
-				.build();
-		todoRepository.save(newTodo);
-	}
+    @Transactional
+    public Long add(RequestAddTodo requestAddTodo) {
+        Todo newTodo = Todo.builder()
+                .description(requestAddTodo.getDescription())
+                .build();
+        return todoRepository.save(newTodo).getId();
+    }
 
-	@Transactional
-	public void edit(RequestEditTodo requestEditTodo) {
-		long todoId = requestEditTodo.getId();
-		Todo found = getTodoById(todoId);
-		found.updateDescription(requestEditTodo.getDesc());
-		todoRepository.save(found);
-	}
+    @Transactional
+    public Long edit(RequestEditTodo requestEditTodo) {
+        Todo found = getTodoById(requestEditTodo.getId());
+        found.updateDescription(requestEditTodo.getDescription());
+        return todoRepository.save(found).getId();
+    }
 
-	@Transactional
-	public void makeDone(long todoId){
-		Todo found = getTodoById(todoId);
-		found.done();
-		todoRepository.save(found);
-	}
+    @Transactional
+    public void changeToDone(long todoId) {
+        Todo found = getTodoById(todoId);
+        found.done();
+        todoRepository.save(found);
+    }
 
-	private Todo getTodoById(long todoId) {
-		return todoRepository.findById(todoId)
-			.orElseThrow(() -> new TodoNotFoundException("id : " + todoId + "not found"));
-	}
+    private Todo getTodoById(long todoId) {
+        return todoRepository.findById(todoId)
+                .orElseThrow(() -> new TodoNotFoundException("id : " + todoId + "not found"));
+    }
 
 }

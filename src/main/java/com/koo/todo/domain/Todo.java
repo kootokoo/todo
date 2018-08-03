@@ -34,4 +34,8 @@ public class Todo extends CreatedAndModifiedEntity {
 	public void updateDescription(String desc) {
 		this.description = desc;
 	}
+
+	public boolean isDone() {
+		return false;
+	}
 }

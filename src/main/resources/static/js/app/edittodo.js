@@ -1,28 +1,31 @@
 var main = {
     init : function () {
         var _this = this;
-        $('#btn-save').on('click', function () {
-            _this.save();
+        $('#btn-edit').on('click', function () {
+            _this.edit();
         });
     },
-    save : function () {
+    edit : function () {
         var data = {
+            id : $('#todoId').val(),
             description: $('#description').val()
         };
 
         $.ajax({
             type: 'POST',
-            url: '/api/add',
+            url: '/api/edit',
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function() {
-            alert('할일이 등록되었습니다.');
+            alert('할일이 수정되었습니다.');
             location.reload();
         }).fail(function (error) {
             alert(error);
         });
     }
+
+
 
 };
 
