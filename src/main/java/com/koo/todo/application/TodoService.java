@@ -2,6 +2,7 @@ package com.koo.todo.application;
 
 import com.koo.todo.application.vo.RequestAddTodo;
 import com.koo.todo.application.vo.RequestEditTodo;
+import com.koo.todo.application.vo.ResponseTodo;
 import com.koo.todo.domain.Todo;
 import com.koo.todo.domain.TodoNotFoundException;
 import com.koo.todo.domain.TodoRepository;
@@ -11,16 +12,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TodoService {
 	@Autowired
 	private TodoRepository todoRepository;
 
-	public Page<Todo> getTodoList(Pageable listRequest) {
-		return todoRepository.findAll(listRequest);
+	public List<ResponseTodo> getTodoList(Pageable listRequest) {
+		return todoRepository.findAll(listRequest).getContent()
+				.stream().map(ResponseTodo::new)
+				.collect(Collectors.toList());
 	}
-
 
 	@Transactional
 	public void add(RequestAddTodo requestAddTodo) {
