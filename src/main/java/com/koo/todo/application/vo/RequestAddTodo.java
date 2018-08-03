@@ -9,4 +9,7 @@ import java.util.List;
 public class RequestAddTodo {
 	@NotNull
 	private String description;
+
+	private String linkIds;
+
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Getter
@@ -15,15 +16,17 @@ public class ResponseTodo {
     private String createdAt;
     private String modifiedAt;
     private String doneAt;
+    private List<Long> linkIdList;
     private boolean isDone;
 
-    public ResponseTodo(Todo todo) {
+    public ResponseTodo(Todo todo,List<Long> linkIdList) {
         this.id = todo.getId();
         this.description = todo.getDescription();
         this.createdAt = toStringDateTime(todo.getCreatedAt());
         this.modifiedAt = toStringDateTime(todo.getModifiedAt());
         this.doneAt = toStringDateTime(todo.getDoneAt());
         this.isDone = todo.isDone();
+        this.linkIdList = linkIdList;
     }
 
 

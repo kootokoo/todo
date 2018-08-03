@@ -7,7 +7,8 @@ var main = {
     },
     save : function () {
         var data = {
-            description: $('#description').val()
+            description: $('#description').val(),
+            linkIds :$('#linkIds').val()
         };
 
         $.ajax({

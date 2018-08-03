@@ -1,10 +1,13 @@
 package com.koo.todo.domain;
 
+import com.google.common.collect.Lists;
+import com.koo.link.domain.Link;
 import com.koo.todo.utils.timelistener.CreatedAndModifiedEntity;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,8 +23,9 @@ public class Todo extends CreatedAndModifiedEntity {
 	@Column
 	private String description;
 
-//	@Column
-//	private List<Long> link;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name = "todoId")
+	private List<Link> link;
 
 	@Column
 	private LocalDateTime doneAt;
@@ -37,4 +41,15 @@ public class Todo extends CreatedAndModifiedEntity {
 	public boolean isDone() {
 		return false;
 	}
+
+	public void addLink(List<Long> idList){
+		if(this.link == null) {
+			this.link = Lists.newArrayList();
+		}
+
+		for(Long todoId : idList){
+			this.link.add(new Link(todoId));
+		}
+	}
+
 }

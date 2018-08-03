@@ -2,7 +2,8 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTodoModal">todo 등록</button>
 </div>
 
-<div class="modal fade" id="saveTodoModal" tabindex="-1" role="dialog" aria-labelledby="saveTodoLabel" aria-hidden="true">
+<div class="modal fade" id="saveTodoModal" tabindex="-1" role="dialog" aria-labelledby="saveTodoLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,8 +14,11 @@
             </div>
             <div class="modal-body">
                 <div class="col-md-8 form-group row">
-                        <label class="col-md-5"> Description </label>
-                        <input type="text" class="form-control" id="description" placeholder="할일을 입력하세요">
+                    <label class="col-md-5"> Description </label>
+                    <input type="text" class="form-control" id="description" placeholder="할일을 입력하세요">
+
+                    <label class="col-md-5"> Link </label>
+                    <input type="text" class="form-control" id="linkIds" placeholder="참조할 todo의 번호를 입력하세요. ex)1,2,3">
                 </div>
             </div>
             <div class="modal-footer">
