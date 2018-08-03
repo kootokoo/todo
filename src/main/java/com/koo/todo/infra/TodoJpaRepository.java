@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.awt.print.Pageable;
 import java.util.List;
 
-//@Repository
+@Repository
 public interface TodoJpaRepository extends JpaRepository<Todo, Long>, TodoRepository{
 }

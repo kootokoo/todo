@@ -2,6 +2,7 @@ package com.koo.todo.web;
 
 import com.koo.todo.application.TodoService;
 import com.koo.todo.application.vo.RequestAddTodo;
+import com.koo.todo.application.vo.RequestEditTodo;
 import com.koo.todo.domain.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,24 +13,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@RestController
-public class TodoController {
+@RestController("/api")
+public class TodoRestController {
     @Autowired
     private TodoService todoService;
 
-    @GetMapping("/")
-    public ModelAndView main(ModelAndView modelAndView) {
-        modelAndView.setViewName("main");
-        return modelAndView;
+
+    @PostMapping("/add")
+    public void addTodo(@RequestBody RequestAddTodo requestAddTodo) {
+        todoService.add(requestAddTodo);
     }
 
-    @GetMapping("/list")
-    public ModelAndView getAll(ModelAndView mnv, Pageable pageable) {
-        Page<Todo> todoList = todoService.getTodoList(pageable);
-        mnv.setViewName("todo/todo");
-        mnv.addObject("todoList", todoList.getContent());
-        return mnv;
+    @PostMapping("/edit")
+    public void editTodo(@RequestBody RequestEditTodo requestAddTodo) {
+        todoService.edit(requestAddTodo);
     }
-
 
 }

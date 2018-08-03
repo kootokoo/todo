@@ -10,7 +10,9 @@ buildscript {
 	}
 }
 
+
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
@@ -30,5 +32,12 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('com.h2database:h2')
 	compileOnly('org.projectlombok:lombok')
+	compile('com.github.jknack:handlebars-springmvc:')
+
+	compile 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0'
+
+	testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
+	testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+
 }

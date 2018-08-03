@@ -1,19 +1,17 @@
 package com.koo.todo.domain;
 
 import com.koo.todo.utils.CreatedAndModifiedEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Entity
+@Builder
 public class Todo extends CreatedAndModifiedEntity {
 	@Id
 	@GeneratedValue
@@ -23,8 +21,8 @@ public class Todo extends CreatedAndModifiedEntity {
 	@Column
 	private String description;
 
-	@Column
-	private List<Long> link;
+//	@Column
+//	private List<Long> link;
 
 	@Column
 	private LocalDateTime doneAt;
@@ -33,8 +31,7 @@ public class Todo extends CreatedAndModifiedEntity {
 
 	}
 
-	public Todo(String description, List<Long> link) {
-		this.description = description;
-		this.link = link;
+	public void updateDescription(String desc) {
+		this.description = desc;
 	}
 }

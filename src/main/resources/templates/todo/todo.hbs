@@ -1,18 +1,13 @@
 {{# partial "content" }}
 
-  <div class="main">
-    <h2 class="main-header">Todo List</h2>
-
-    <div class="dim-wrapper">
-      <div class="ajax-loading"></div>
-    </div>
-
     <div>
-
+        {{> todo/newtodo}}
     </div>
 
+    <div id="sub-content" >
+        {{> todo/todotable}}
+    </div>
 
-  </div>
 {{/partial}}
 
 {{>layout}}

@@ -1,0 +1,36 @@
+<div class="panel panel-primary" style="padding: 1px">
+    <div class="panel-heading">
+        <h2 class="panel-title">todo result</h2>
+    </div>
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="thead-strong">
+
+        <th>id</th>
+        <th>description</th>
+        <th>createdAt</th>
+        <th>modifiedAt</th>
+        <th>doneAt</th>
+
+        </thead>
+
+        <tbody>
+        {{#each todoList}}
+            <tr>
+                <td class="text-center">{{this.id}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">{{this.description}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">{{this.createdAt}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">{{this.modifiedAt}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">{{this.doneAt}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>

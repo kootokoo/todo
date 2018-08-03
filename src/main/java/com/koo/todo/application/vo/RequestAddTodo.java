@@ -5,7 +5,6 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class TodoAddRequest {
-	private String desc;
-	private List<Long> links;
+public class RequestAddTodo {
+	private String description;
 }
