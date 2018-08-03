@@ -25,10 +25,8 @@ public class TodoService {
     @Autowired
     private TodoRepository todoRepository;
 
-    public List<ResponseTodo> getTodoList(Pageable listRequest) {
-        return todoRepository.findAll(listRequest).getContent()
-                .stream().map(ResponseTodo::new)
-                .collect(Collectors.toList());
+    public Page<ResponseTodo> getTodoList(Pageable listRequest) {
+        return todoRepository.findAll(listRequest).map(ResponseTodo::new);
     }
 
     @Transactional

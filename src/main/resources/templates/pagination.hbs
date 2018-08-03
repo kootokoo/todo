@@ -1,0 +1,27 @@
+<div align="center">
+    <ul class="pagination">
+        <li class="{{#unless pagination.previous.active}}disabled{{/unless}}">
+            {{#if pagination.previous.active}}
+                <a href="?page={{pagination.previous.number}}">&laquo;</a>
+            {{else}}
+                <span>&laquo;</span>
+            {{/if}}
+        </li>
+        {{#each pagination.pages}}
+            <li class="{{#if this.active}}active{{/if}}">
+                {{#if this.active}}
+                    <span>{{this.visualNumber}}</span>
+                {{else}}
+                    <a href="?page={{this.number}}">{{this.visualNumber}}</a>
+                {{/if}}
+            </li>
+        {{/each}}
+        <li class="{{#unless pagination.next.active}}disabled{{/unless}}">
+            {{#if pagination.next.active}}
+                <a href="?page={{pagination.next.number}}">&raquo;</a>
+            {{else}}
+                <span>&raquo;</span>
+            {{/if}}
+        </li>
+    </ul>
+</div>

@@ -1,11 +1,10 @@
 package com.koo.todo.domain;
 
-import com.koo.todo.utils.CreatedAndModifiedEntity;
+import com.koo.todo.utils.timelistener.CreatedAndModifiedEntity;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
