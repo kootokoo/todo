@@ -1,27 +1,30 @@
 package com.koo.link.domain;
 
 import com.koo.todo.domain.Todo;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Link {
 	@Id
+	@Column(name="seq")
 	@GeneratedValue
-	private Long id;
+	private int seq;
 
-	@Column
+	@Column(name="todo_id")
 	private Long todoId;
 
 	@Column
 	private Long linkedId;
 
-	public Link(Long todoId) {
-		this.todoId = todoId;
+	public Link(Long linkedId) {
+		this.linkedId = linkedId;
 	}
+
 }

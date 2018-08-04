@@ -18,6 +18,7 @@ class CommaSeparatorTest extends Specification {
         DESC      | input   | output
         "정상 입력 값" | "1,2,3" | [1L, 2L, 3L]
         "정상 입력 값" | "1,2,"  | [1L, 2L]
+        "정상 입력 값" | ""  | []
     }
 
     @Unroll
@@ -34,4 +35,5 @@ class CommaSeparatorTest extends Specification {
         "비정상 입력 값" | "1 2 " | NumberFormatException
         "비정상 입력 값" | null   | NullPointerException
     }
+
 }

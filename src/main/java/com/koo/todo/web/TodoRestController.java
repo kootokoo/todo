@@ -17,8 +17,7 @@ public class TodoRestController {
 
 
     @PostMapping("/api/add")
-    public Long addTodo(
-            @RequestBody @Valid RequestAddTodo requestAddTodo) {
+    public Long addTodo(@RequestBody @Valid RequestAddTodo requestAddTodo) {
         return todoService.add(requestAddTodo);
     }
 

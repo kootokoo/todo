@@ -3,7 +3,6 @@ package com.koo.todo.application;
 import com.google.common.collect.Lists;
 import com.koo.link.application.LinkService;
 import com.koo.link.domain.Link;
-import com.koo.link.domain.LinkRepository;
 import com.koo.todo.application.vo.RequestAddTodo;
 import com.koo.todo.application.vo.RequestEditTodo;
 import com.koo.todo.application.vo.ResponseTodo;
@@ -18,11 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,33 +30,49 @@ public class TodoService {
     private LinkService linkService;
 
     public Page<ResponseTodo> getTodoList(Pageable listRequest) {
-        return todoRepository.findAll(listRequest).map(
-                todo -> new ResponseTodo(todo, linkService.getLinkedTodoList(todo.getId()))
-        );
+        return todoRepository.findAll(listRequest).map(ResponseTodo::new);
     }
 
     @Transactional
     public Long add(RequestAddTodo requestAddTodo) {
-        List<Long> linkIdList = CommaSeparator.comma2list(requestAddTodo.getLinkIds());
-        List<Link> linkList = Lists.newArrayList();
-
-        for(Long linkId : linkIdList) {
-            linkList.add(new Link(linkId));
-        }
-
+        List<Link> linkList = makeLinkList(requestAddTodo);
+        // save todo
         Todo newTodo = Todo.builder()
                 .description(requestAddTodo.getDescription())
                 .link(linkList)
                 .build();
 
-        return todoRepository.save(newTodo).getId();
+        return todoRepository.save(newTodo).getSeq();
+    }
+
+    private void checkIsAllExist(List<Long> todoIds) {
+        List<Long> foundTodoList = todoRepository.findIdByIdIn(todoIds);
+        List<Long> nonExistIds = todoIds.stream().filter(target -> !foundTodoList.contains(target))
+                .collect(Collectors.toList());
+
+        if (!nonExistIds.isEmpty()) {
+            throw new TodoNotFoundException("존재하지 않는 링크가 포함되어 있습니다 id : " +nonExistIds.toString());
+        }
+
+    }
+
+    private List<Link> makeLinkList(RequestAddTodo requestAddTodo) {
+        List<Long> linkIdList = CommaSeparator.comma2list(requestAddTodo.getLinkIds());
+        checkIsAllExist(linkIdList);
+
+        List<Link> linkList = Lists.newArrayList();
+
+        for (Long linkId : linkIdList) {
+            linkList.add(new Link());
+        }
+        return linkList;
     }
 
     @Transactional
     public Long edit(RequestEditTodo requestEditTodo) {
         Todo found = getTodoById(requestEditTodo.getId());
         found.updateDescription(requestEditTodo.getDescription());
-        return todoRepository.save(found).getId();
+        return todoRepository.save(found).getSeq();
     }
 
     @Transactional

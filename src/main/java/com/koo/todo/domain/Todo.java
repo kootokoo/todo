@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,17 +17,16 @@ import java.util.List;
 @Builder
 public class Todo extends CreatedAndModifiedEntity {
 	@Id
-	@GeneratedValue
-	@Column(name = "todoId")
-	private Long id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="seq")
+	private Long seq;
 
 	@Column
 	private String description;
 
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name = "todoId")
-	private List<Link> link;
-
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="todo_id")
+	private Collection<Link> link;
 	@Column
 	private LocalDateTime doneAt;
 
@@ -42,11 +42,11 @@ public class Todo extends CreatedAndModifiedEntity {
 		return false;
 	}
 
-	public void addLink(List<Long> idList){
+
+	public void addLink(List<Long> idList) {
 		if(this.link == null) {
 			this.link = Lists.newArrayList();
 		}
-
 		for(Long todoId : idList){
 			this.link.add(new Link(todoId));
 		}

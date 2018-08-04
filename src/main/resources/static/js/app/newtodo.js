@@ -10,7 +10,6 @@ var main = {
             description: $('#description').val(),
             linkIds :$('#linkIds').val()
         };
-
         $.ajax({
             type: 'POST',
             url: '/api/add',
@@ -18,8 +17,8 @@ var main = {
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function() {
-            alert('할일이 등록되었습니다.');
             location.reload();
+            alert('할일이 등록되었습니다.');
         }).fail(function (error) {
             alert(error);
         });
