@@ -1,9 +1,9 @@
 package com.koo.link.domain;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface LinkRepository {
-    Link save(Link link);
-//    Optional<List<Link>> findByLinkId(Long linkId);
+public interface LinkRepository extends JpaRepository<Link, Long> {
 }

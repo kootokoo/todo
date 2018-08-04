@@ -19,7 +19,7 @@ public class ResponseTodo {
     private boolean isDone;
 
     public ResponseTodo(Todo todo) {
-        this.id = todo.getSeq();
+        this.id = todo.getId();
         this.description = todo.getDescription();
         this.createdAt = toStringDateTime(todo.getCreatedAt());
         this.modifiedAt = toStringDateTime(todo.getModifiedAt());

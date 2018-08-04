@@ -15,7 +15,7 @@ class TodoServiceTest extends Specification {
         def 링크할Ids = [1L, 2L, 3L]
         def 디비에저장되어있는Ids = [1L, 2L]
         def 미존재_ids = [3L]
-        todoRepository.findIdByIdIn(링크할Ids) >> 디비에저장되어있는Ids
+        todoRepository.findAllById(링크할Ids) >> 디비에저장되어있는Ids
 
         when:
         service.checkIsAllExist(링크할Ids)
@@ -24,7 +24,7 @@ class TodoServiceTest extends Specification {
         TodoNotFoundException ex = thrown()
         ex.message == "존재하지 않는 링크가 포함되어 있습니다 id : " + 미존재_ids.toString()
 
-
     }
+
 
 }

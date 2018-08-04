@@ -13,9 +13,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Link {
 	@Id
-	@Column(name="seq")
 	@GeneratedValue
-	private int seq;
+	private int id;
 
 	@Column(name="todo_id")
 	private Long todoId;

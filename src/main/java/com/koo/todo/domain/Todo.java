@@ -18,8 +18,7 @@ import java.util.List;
 public class Todo extends CreatedAndModifiedEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="seq")
-	private Long seq;
+	private Long id;
 
 	@Column
 	private String description;

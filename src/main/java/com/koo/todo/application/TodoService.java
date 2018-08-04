@@ -26,8 +26,8 @@ public class TodoService {
     @Autowired
     private TodoRepository todoRepository;
 
-    @Autowired
-    private LinkService linkService;
+//    @Autowired
+//    private LinkService linkService;
 
     public Page<ResponseTodo> getTodoList(Pageable listRequest) {
         return todoRepository.findAll(listRequest).map(ResponseTodo::new);
@@ -42,11 +42,11 @@ public class TodoService {
                 .link(linkList)
                 .build();
 
-        return todoRepository.save(newTodo).getSeq();
+        return todoRepository.save(newTodo).getId();
     }
 
     private void checkIsAllExist(List<Long> todoIds) {
-        List<Long> foundTodoList = todoRepository.findIdByIdIn(todoIds);
+        List<Todo> foundTodoList = todoRepository.findAllById(todoIds);
         List<Long> nonExistIds = todoIds.stream().filter(target -> !foundTodoList.contains(target))
                 .collect(Collectors.toList());
 
@@ -72,7 +72,7 @@ public class TodoService {
     public Long edit(RequestEditTodo requestEditTodo) {
         Todo found = getTodoById(requestEditTodo.getId());
         found.updateDescription(requestEditTodo.getDescription());
-        return todoRepository.save(found).getSeq();
+        return todoRepository.save(found).getId();
     }
 
     @Transactional
