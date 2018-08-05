@@ -19,7 +19,7 @@
             {{#each todoList}}
                 <tr>
                     <td class="text-center">{{this.id}}</td>
-                    <td class="text-center">{{this.desc}}</td>
+                    <td class="text-center">{{this.desc}} {{this.links}}</td>
                     <td class="text-center">{{this.createdAt}}</td>
                     <td class="text-center">{{this.modifiedAt}}</td>
                     {{#if this.isDone}}

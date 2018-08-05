@@ -55,7 +55,7 @@ public class Todo extends CreatedAndModifiedEntity {
 	private static String commaDelimiter = ",";
 	public String getCommaLinks(){
         return link.stream()
-                .map(link -> link.getLinkedId().toString())
+                .map(link -> "@"+link.getLinkedId().toString())
                 .collect(Collectors.joining(commaDelimiter));
     }
 
