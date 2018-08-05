@@ -25,7 +25,6 @@ class CommaSeparatorTest extends Specification {
 
     @Unroll
     def "비정상 입력값 변환시, 에러 발생"() {
-
         when:
         def result = CommaSeparator.comma2list(input)
 

@@ -21,8 +21,8 @@ var main = {
         }).done(function() {
             alert('할일이 수정되었습니다.');
             location.reload();
-        }).fail(function (error) {
-            alert(error);
+        }).fail(function (data) {
+            alert(data.responseJSON.message);
         });
     }
 };

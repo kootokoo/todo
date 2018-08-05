@@ -34,11 +34,11 @@ public class TodoService {
 
     @Transactional
     public Long add(RequestAddTodo requestAddTodo) {
-        List<Link> linkList = makeLinkList(requestAddTodo);
+        List<Link> linkList = makeLinkList(requestAddTodo.getLinks());
 
         Todo newTodo = Todo.builder()
                 .desc(requestAddTodo.getDesc())
-                .link(linkList)
+                .linkList(linkList)
                 .build();
 
         return todoRepository.save(newTodo).getId();
@@ -58,11 +58,11 @@ public class TodoService {
 
     }
 
-    private List<Link> makeLinkList(RequestAddTodo requestAddTodo) {
-        if(requestAddTodo.getLinks().isEmpty()) {
+    private List<Link> makeLinkList(String linkListStr) {
+        if(linkListStr.isEmpty()) {
             return null;
         } else {
-            List<Long> linkIdList = CommaSeparator.comma2list(requestAddTodo.getLinks());
+            List<Long> linkIdList = CommaSeparator.comma2list(linkListStr);
             checkIsAllExist(linkIdList);
 
             return linkIdList.stream()
@@ -75,7 +75,9 @@ public class TodoService {
     @Transactional
     public Long edit(RequestEditTodo requestEditTodo) {
         Todo found = getTodoById(requestEditTodo.getId());
+        List<Link> linkList = makeLinkList(requestEditTodo.getLinks());
         found.updateDescription(requestEditTodo.getDesc());
+        found.updateLinks(linkList);
         return todoRepository.save(found).getId();
     }
 

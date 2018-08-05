@@ -6,15 +6,13 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Getter
 public class ResponseTodo {
     private long id;
     private String desc;
-    private String links;
+    private String linkList;
     private String createdAt;
     private String modifiedAt;
     private String doneAt;
@@ -23,7 +21,7 @@ public class ResponseTodo {
     public ResponseTodo(Todo todo) {
         this.id = todo.getId();
         this.desc = todo.getDesc();
-        this.links = todo.getCommaLinks();
+        this.linkList = todo.getCommaLinks();
         this.createdAt = toStringDateTime(todo.getCreatedAt());
         this.modifiedAt = toStringDateTime(todo.getModifiedAt());
         this.doneAt = toStringDateTime(todo.getDoneAt());
