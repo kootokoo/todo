@@ -47,8 +47,6 @@ public class TodoService {
         return todoRepository.save(newTodo).getId();
     }
 
-
-
     private void checkIsAllExist(List<Long> requestLinkIds) {
         List<Long> nonExistId = Lists.newArrayList(requestLinkIds);
         List<Todo> allById = todoRepository.findAllById(requestLinkIds);
@@ -129,18 +127,28 @@ public class TodoService {
     }
 
     @Transactional
-    public Todo changeToDone(long todoId) {
+    public Long changeToDone(long todoId) {
         Todo found = getTodoById(todoId);
         List<Long> linkedIdListByTodoId = linkService.getLinkedIdListByTodoId(todoId);
+        List<Long> nonDoneStatusList = todoRepository.findIdByIdInAndDoneAtNull(linkedIdListByTodoId);
 
-        if (linkedIdListByTodoId.isEmpty()) {
+        if (nonDoneStatusList.isEmpty()) {
             found.markDoneAt();
-            return todoRepository.save(found);
+            return todoRepository.save(found).getId();
         } else {
             throw new CannotChangeTobeDoneException(linkedIdListByTodoId.toString() + "가 존재하여 done 처리 할 수 없습니다.");
         }
 
     }
+
+    private boolean canBeDone(List<Todo> todos) {
+        return getDoneCount(todos) == todos.size();
+    }
+
+    private long getDoneCount(List<Todo> todos) {
+        return todos.stream().map(Todo::isDone).count();
+    }
+
 
     private Todo getTodoById(long todoId) {
         return todoRepository.findById(todoId)

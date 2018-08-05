@@ -9,4 +9,5 @@ import java.util.Optional;
 
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
+    List<Long> findIdByIdInAndDoneAtNull(List<Long> ids);
 }

@@ -34,6 +34,10 @@ public class Todo extends CreatedAndModifiedEntity {
 		this.doneAt = LocalDateTime.now();
 	}
 
+	public boolean isDone(){
+		return this.doneAt != null;
+	}
+
 	public void updateDescription(String desc) {
 		this.desc = desc;
 	}
