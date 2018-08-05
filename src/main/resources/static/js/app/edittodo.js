@@ -7,8 +7,9 @@ var main = {
     },
     edit : function () {
         var data = {
-            id : $('#todoId').val(),
-            description: $('#description').val()
+            id : $('#edit_id').val(),
+            desc: $('#edit_desc').val(),
+            links: $('#edit_links').val()
         };
 
         $.ajax({
