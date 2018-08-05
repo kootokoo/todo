@@ -1,32 +1,27 @@
-<div class="col-md-12">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTodoModal">todo 등록</button>
+<div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTodoModal">할일 등록</button>
 </div>
-
-<div class="modal fade" id="saveTodoModal" tabindex="-1" role="dialog" aria-labelledby="saveTodoLabel"
-     aria-hidden="true">
+<div class="modal fade" id="saveTodoModal" tabindex="-1" role="dialog" aria-labelledby="saveTodoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="saveTodoLabel">todo</h5>
+                <h5 class="modal-title" id="saveTodoLabel">할일 등록</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="description">description</label>
-                        <input type="text" class="form-control" id="description" placeholder="할일을 입력하세요">
+                        <label for="desc">제목</label>
+                        <input type="text" class="form-control" id="desc" placeholder="할일을 입력하세요">
                     </div>
                     <div class="form-group">
-                        <label for="linklist">link</label>
-                        <input type="text" class="form-control" id="linklist" placeholder="링크를 입력하세요 ex) 1,2,3 ">
+                        <label for="links"> 작성자 </label>
+                        <input type="text" class="form-control" id="links" placeholder="참조할 Todo의 Id를 입력하세요">
                     </div>
-
                 </form>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-primary" id="btn-save">등록</button>

@@ -37,7 +37,7 @@ public class TodoService {
         List<Link> linkList = makeLinkList(requestAddTodo);
         // save todo
         Todo newTodo = Todo.builder()
-                .description(requestAddTodo.getDescription())
+                .desc(requestAddTodo.getDesc())
                 .link(linkList)
                 .build();
 
@@ -56,7 +56,7 @@ public class TodoService {
     }
 
     private List<Link> makeLinkList(RequestAddTodo requestAddTodo) {
-        List<Long> linkIdList = CommaSeparator.comma2list(requestAddTodo.getLinkIds());
+        List<Long> linkIdList = CommaSeparator.comma2list(requestAddTodo.getLinks());
         checkIsAllExist(linkIdList);
 
         List<Link> linkList = Lists.newArrayList();
@@ -70,7 +70,7 @@ public class TodoService {
     @Transactional
     public Long edit(RequestEditTodo requestEditTodo) {
         Todo found = getTodoById(requestEditTodo.getId());
-        found.updateDescription(requestEditTodo.getDescription());
+        found.updateDescription(requestEditTodo.getDesc());
         return todoRepository.save(found).getId();
     }
 

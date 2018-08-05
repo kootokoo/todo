@@ -9,5 +9,7 @@ public class RequestEditTodo {
 	@NotNull
 	private Long id;
 	@NotNull
-	private String description;
+	private String desc;
+	private String links;
+
 }

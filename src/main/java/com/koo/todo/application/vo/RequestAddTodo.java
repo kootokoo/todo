@@ -8,8 +8,8 @@ import java.util.List;
 @Getter
 public class RequestAddTodo {
 	@NotNull
-	private String description;
+	private String desc;
 
-	private String linkIds;
+	private String links;
 
 }

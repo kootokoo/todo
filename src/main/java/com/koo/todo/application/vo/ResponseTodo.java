@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Getter
 public class ResponseTodo {
     private long id;
-    private String description;
+    private String desc;
     private String links;
     private String createdAt;
     private String modifiedAt;
@@ -22,7 +22,7 @@ public class ResponseTodo {
 
     public ResponseTodo(Todo todo) {
         this.id = todo.getId();
-        this.description = todo.getDescription();
+        this.desc = todo.getDesc();
         this.links = todo.getCommaLinks();
         this.createdAt = toStringDateTime(todo.getCreatedAt());
         this.modifiedAt = toStringDateTime(todo.getModifiedAt());

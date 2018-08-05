@@ -7,7 +7,7 @@
             <thead class="thead-strong">
 
             <th>id</th>
-            <th>description</th>
+            <th>desc</th>
             <th>createdAt</th>
             <th>modifiedAt</th>
             <th>doneAt</th>
@@ -19,7 +19,7 @@
             {{#each todoList}}
                 <tr>
                     <td class="text-center">{{this.id}}</td>
-                    <td class="text-center">{{this.description}}</td>
+                    <td class="text-center">{{this.desc}}</td>
                     <td class="text-center">{{this.createdAt}}</td>
                     <td class="text-center">{{this.modifiedAt}}</td>
                     {{#if this.isDone}}

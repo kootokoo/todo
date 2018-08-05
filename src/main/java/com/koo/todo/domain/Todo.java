@@ -22,7 +22,7 @@ public class Todo extends CreatedAndModifiedEntity {
 	private Long id;
 
 	@Column
-	private String description;
+	private String desc;
 
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="todo_id")
@@ -35,7 +35,7 @@ public class Todo extends CreatedAndModifiedEntity {
 	}
 
 	public void updateDescription(String desc) {
-		this.description = desc;
+		this.desc = desc;
 	}
 
 	public boolean isDone() {
