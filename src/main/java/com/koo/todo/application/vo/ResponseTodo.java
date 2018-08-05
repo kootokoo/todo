@@ -1,18 +1,22 @@
 package com.koo.todo.application.vo;
 
 
+import com.koo.link.domain.Link;
 import com.koo.todo.domain.Todo;
+import com.koo.utils.string.TimeToStringHelper;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Getter
 public class ResponseTodo {
     private long id;
     private String desc;
-    private String linkList;
+    private List<Long> linkList;
     private String createdAt;
     private String modifiedAt;
     private String doneAt;
@@ -20,17 +24,9 @@ public class ResponseTodo {
     public ResponseTodo(Todo todo) {
         this.id = todo.getId();
         this.desc = todo.getDesc();
-        this.linkList = todo.getCommaLinks();
-        this.createdAt = toStringDateTime(todo.getCreatedAt());
-        this.modifiedAt = toStringDateTime(todo.getModifiedAt());
-        this.doneAt = toStringDateTime(todo.getDoneAt());
-    }
-
-
-    private String toStringDateTime(LocalDateTime localDateTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return Optional.ofNullable(localDateTime)
-                .map(formatter::format)
-                .orElse("");
+        this.linkList = todo.getLinkList().stream().map(Link::getLinkedId).collect(Collectors.toList());;
+        this.createdAt = TimeToStringHelper.convert(todo.getCreatedAt());
+        this.modifiedAt = TimeToStringHelper.convert(todo.getModifiedAt());
+        this.doneAt = TimeToStringHelper.convert(todo.getDoneAt());
     }
 }

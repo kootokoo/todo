@@ -25,7 +25,7 @@ public class TodoRestController {
     }
 
     @RequestMapping(value="/api/done/{id}", method=RequestMethod.GET, produces="application/json")
-    public void editTodo(@PathVariable Long id) {
+    public void doneTodo(@PathVariable Long id) {
         todoService.changeToDone(Long.valueOf(id));
     }
 

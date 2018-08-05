@@ -26,7 +26,7 @@ public class Todo extends CreatedAndModifiedEntity {
 
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="todo_id")
-	private Collection<Link> linkList;
+	private List<Link> linkList;
 	@Column
 	private LocalDateTime doneAt;
 
@@ -41,18 +41,5 @@ public class Todo extends CreatedAndModifiedEntity {
     public void updateLinks(List<Link> linkList) {
         this.linkList = linkList;
     }
-
-	public boolean isDone() {
-		return this.doneAt == null ? false : true;
-	}
-
-
-	private static String commaDelimiter = ",";
-	public String getCommaLinks(){
-        return linkList.stream()
-                .map(link -> "@"+link.getLinkedId().toString())
-                .collect(Collectors.joining(commaDelimiter));
-    }
-
 
 }

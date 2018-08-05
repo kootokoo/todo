@@ -3,11 +3,13 @@ package com.koo.todo.application
 import com.koo.link.application.LinkService
 import com.koo.link.domain.Link
 import com.koo.todo.application.exception.CannotChangeTobeDoneException
+import com.koo.todo.application.exception.CannotMakeLinkBySelf
 import com.koo.todo.domain.Todo
 import com.koo.todo.domain.TodoNotFoundException
 import com.koo.todo.domain.TodoRepository
 import org.assertj.core.util.Lists
 import spock.lang.Specification
+import spock.lang.Unroll
 
 
 class TodoServiceTest extends Specification {
@@ -66,6 +68,43 @@ class TodoServiceTest extends Specification {
         CannotChangeTobeDoneException ex = thrown()
         ex.message == target에링크된참조.toString() +"가 존재하여 done 처리 할 수 없습니다."
 
+    }
+
+
+    @Unroll
+    def "스스로 참조를 하는지 확인 #DESC sourceId : #TODO_ID"(){
+        given:
+        def sourceTodoId = TODO_ID
+        def linkList = LINK_LIST
+
+        when:
+        todoService.checkContainSelfId(sourceTodoId, linkList)
+
+        then:
+        noExceptionThrown()
+
+        where:
+        DESC | TODO_ID | LINK_LIST
+        "정상" | null | [1L,2L,3L]
+        "정상" | 5L | [13L,23L,33L]
+    }
+
+    @Unroll
+    def "스스로 참조하려 할 때 오류 발생"(){
+        given:
+        def sourceTodoId = TODO_ID
+        def linkList = LINK_LIST
+
+        when:
+        todoService.checkContainSelfId(sourceTodoId, linkList)
+
+        then:
+        CannotMakeLinkBySelf ex = thrown()
+        ex.message == "스스로 참조가 될 수 없습니다"
+
+        where:
+        DESC | TODO_ID | LINK_LIST
+        "비정상" | 1L | [1L,2L,3L]
     }
 
 

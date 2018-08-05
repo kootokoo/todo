@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.koo.link.application.LinkService;
 import com.koo.link.domain.Link;
 import com.koo.todo.application.exception.CannotChangeTobeDoneException;
+import com.koo.todo.application.exception.CannotMakeLinkBySelf;
 import com.koo.todo.application.vo.RequestAddTodo;
 import com.koo.todo.application.vo.RequestEditTodo;
 import com.koo.todo.application.vo.ResponseTodo;
@@ -36,7 +37,7 @@ public class TodoService {
 
     @Transactional
     public Long add(RequestAddTodo requestAddTodo) {
-        List<Link> linkList = makeLinkList(requestAddTodo.getLinks());
+        List<Link> linkList = makeLinkList(null, requestAddTodo.getLinks());
 
         Todo newTodo = Todo.builder()
                 .desc(requestAddTodo.getDesc())
@@ -55,16 +56,20 @@ public class TodoService {
 
         nonExistId.removeAll(foundTodoId);
         if (!nonExistId.isEmpty()) {
-            throw new TodoNotFoundException("존재하지 않는 링크가 포함되어 있습니다 id : " +nonExistId.toString());
+            throw new TodoNotFoundException("존재하지 않는 링크가 포함되어 있습니다 id : " + nonExistId.toString());
         }
 
     }
 
-    private List<Link> makeLinkList(String linkListStr) {
-        if(linkListStr.isEmpty()) {
+    private List<Link> makeLinkList(Long sourceTodoId, String linkListStr) {
+
+        if (linkListStr.isEmpty()) {
             return null;
         } else {
+            //extract linkIds
             List<Long> linkIdList = CommaSeparator.comma2list(linkListStr);
+            //validation
+            checkContainSelfId(sourceTodoId, linkIdList);
             checkIsAllExist(linkIdList);
 
             return linkIdList.stream()
@@ -76,11 +81,20 @@ public class TodoService {
 
     @Transactional
     public Long edit(RequestEditTodo requestEditTodo) {
+
         Todo found = getTodoById(requestEditTodo.getId());
-        List<Link> linkList = makeLinkList(requestEditTodo.getLinks());
+
+        List<Link> linkList = makeLinkList(requestEditTodo.getId(), requestEditTodo.getLinks());
+
         found.updateDescription(requestEditTodo.getDesc());
         found.updateLinks(linkList);
         return todoRepository.save(found).getId();
+    }
+
+    private void checkContainSelfId(Long id, List<Long> links) {
+        if (links.contains(id)) {
+            throw new CannotMakeLinkBySelf("스스로 참조가 될 수 없습니다");
+        }
     }
 
     @Transactional
@@ -88,11 +102,11 @@ public class TodoService {
         Todo found = getTodoById(todoId);
         List<Long> linkedIdListByTodoId = linkService.getLinkedIdListByTodoId(todoId);
 
-        if(linkedIdListByTodoId.isEmpty()) {
+        if (linkedIdListByTodoId.isEmpty()) {
             found.markDoneAt();
             return todoRepository.save(found);
         } else {
-            throw new CannotChangeTobeDoneException(linkedIdListByTodoId.toString()+"가 존재하여 done 처리 할 수 없습니다.");
+            throw new CannotChangeTobeDoneException(linkedIdListByTodoId.toString() + "가 존재하여 done 처리 할 수 없습니다.");
         }
 
     }
