@@ -37,7 +37,7 @@ public class TodoService {
 
     @Transactional
     public Long add(RequestAddTodo requestAddTodo) {
-        List<Link> linkList = makeLinkList(null, requestAddTodo.getLinks());
+        List<Link> linkList = makeLinkList(requestAddTodo.getLinks());
 
         Todo newTodo = Todo.builder()
                 .desc(requestAddTodo.getDesc())
@@ -46,6 +46,8 @@ public class TodoService {
 
         return todoRepository.save(newTodo).getId();
     }
+
+
 
     private void checkIsAllExist(List<Long> requestLinkIds) {
         List<Long> nonExistId = Lists.newArrayList(requestLinkIds);
@@ -58,25 +60,54 @@ public class TodoService {
         if (!nonExistId.isEmpty()) {
             throw new TodoNotFoundException("존재하지 않는 링크가 포함되어 있습니다 id : " + nonExistId.toString());
         }
-
     }
 
-    private List<Link> makeLinkList(Long sourceTodoId, String linkListStr) {
-
+    private List<Link> makeLinkList(String linkListStr) {
         if (linkListStr.isEmpty()) {
             return null;
         } else {
             //extract linkIds
-            List<Long> linkIdList = CommaSeparator.comma2list(linkListStr);
+            List<Long> linkIds = CommaSeparator.comma2list(linkListStr);
             //validation
-            checkContainSelfId(sourceTodoId, linkIdList);
-            checkIsAllExist(linkIdList);
+            checkIsAllExist(linkIds);
+            //make new links
+            return makeLinks(linkIds);
+        }
+    }
 
-            return linkIdList.stream()
-                    .map(todoId -> new Link(todoId))
-                    .collect(Collectors.toList());
+    private List<Link> getUpdatableLinkList(Long sourceTodoId, String linkListStr) {
+        if (linkListStr.isEmpty()) {
+            return null;
+        } else {
+            //extract linkIds
+            List<Long> updateLinkIds = CommaSeparator.comma2list(linkListStr);
+
+            //validation
+            checkContainSelfId(sourceTodoId, updateLinkIds);
+            checkIsAllExist(updateLinkIds);
+
+            //기존 저장된 old link Ids delete
+            deleteAllByTodoId(sourceTodoId);
+
+            //make new links
+            return makeLinks(updateLinkIds);
         }
 
+    }
+    private void deleteAllByTodoId(Long sourceTodoId) {
+        linkService.deleteAllByTodoId(sourceTodoId);
+    }
+
+    private List<Link> makeLinks(List<Long> copiedNewIds) {
+        return copiedNewIds.stream()
+                .map(todoId -> new Link(todoId))
+                .collect(Collectors.toList());
+    }
+
+    private List<Long> getRemovedList(List<Long> source, List<Long> target) {
+        List<Long> removed = Lists.newArrayList(source);
+        removed.removeAll(target);
+        return removed;
     }
 
     @Transactional
@@ -84,10 +115,10 @@ public class TodoService {
 
         Todo found = getTodoById(requestEditTodo.getId());
 
-        List<Link> linkList = makeLinkList(requestEditTodo.getId(), requestEditTodo.getLinks());
+        List<Link> updatableLinkList = getUpdatableLinkList(requestEditTodo.getId(), requestEditTodo.getLinks());
 
         found.updateDescription(requestEditTodo.getDesc());
-        found.updateLinks(linkList);
+        found.updateLinks(updatableLinkList);
         return todoRepository.save(found).getId();
     }
 

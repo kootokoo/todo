@@ -22,9 +22,7 @@ public class LinkService {
         return byLinkedId.stream().map(Link::getTodoId).collect(Collectors.toList());
     }
 
-    public void deleteLink(Long linkId) {
-//        Optional<List<Link>> byLinkId = linkRepository.findByLinkId(linkId);
-
-//        byLinkId.ifPresent(() -> new AlreadLinkedTodoExist("앞선 todor가 존재합니다."));
+    public void deleteAllByTodoId(Long sourceTodoId) {
+        linkRepository.deleteByTodoId(sourceTodoId);
     }
 }

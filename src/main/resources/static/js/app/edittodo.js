@@ -26,7 +26,6 @@ var main = {
             desc: $('#edit_desc').val(),
             links: $('#edit_links').val()
         };
-
         $.ajax({
             type: 'POST',
             url: '/api/edit',
