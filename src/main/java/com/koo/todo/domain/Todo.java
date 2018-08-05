@@ -2,13 +2,14 @@ package com.koo.todo.domain;
 
 import com.google.common.collect.Lists;
 import com.koo.link.domain.Link;
-import com.koo.todo.utils.timelistener.CreatedAndModifiedEntity;
+import com.koo.utils.timelistener.CreatedAndModifiedEntity;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -50,5 +51,12 @@ public class Todo extends CreatedAndModifiedEntity {
 			this.link.add(new Link(todoId));
 		}
 	}
+
+	private static String commaDelimiter = ",";
+	public String getCommaLinks(){
+        return link.stream()
+                .map(link -> link.getLinkedId().toString())
+                .collect(Collectors.joining(commaDelimiter));
+    }
 
 }

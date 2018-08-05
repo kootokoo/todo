@@ -1,4 +1,4 @@
-package com.koo.todo.utils.timelistener;
+package com.koo.utils.timelistener;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

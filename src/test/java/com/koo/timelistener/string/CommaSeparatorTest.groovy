@@ -1,4 +1,4 @@
-package com.koo.todo.utils.timelistener.string
+package com.koo.timelistener.string
 
 import spock.lang.Specification
 import spock.lang.Unroll

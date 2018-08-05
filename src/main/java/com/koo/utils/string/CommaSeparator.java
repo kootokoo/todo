@@ -1,4 +1,4 @@
-package com.koo.todo.utils.timelistener.string;
+package com.koo.utils.string;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -15,4 +15,5 @@ public class CommaSeparator {
         }
         return Lists.newArrayList(stringId.trim().split(SPLITTER)).stream().map(Long::valueOf).collect(Collectors.toList());
     }
+
 }

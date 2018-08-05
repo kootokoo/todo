@@ -1,18 +1,14 @@
 package com.koo.todo.web;
 
 import com.koo.todo.application.TodoService;
-import com.koo.todo.application.vo.RequestAddTodo;
 import com.koo.todo.application.vo.ResponseTodo;
-import com.koo.todo.domain.Todo;
-import com.koo.todo.utils.timelistener.paging.Pagination;
+import com.koo.utils.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @RestController
 public class TodoController {

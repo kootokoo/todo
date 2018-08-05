@@ -3,12 +3,10 @@ package com.koo.todo.web;
 import com.koo.todo.application.TodoService;
 import com.koo.todo.application.vo.RequestAddTodo;
 import com.koo.todo.application.vo.RequestEditTodo;
-import com.koo.todo.utils.timelistener.string.CommaSeparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class TodoRestController {

@@ -1,7 +1,6 @@
 package com.koo.todo.application;
 
 import com.google.common.collect.Lists;
-import com.koo.link.application.LinkService;
 import com.koo.link.domain.Link;
 import com.koo.todo.application.vo.RequestAddTodo;
 import com.koo.todo.application.vo.RequestEditTodo;
@@ -9,7 +8,7 @@ import com.koo.todo.application.vo.ResponseTodo;
 import com.koo.todo.domain.Todo;
 import com.koo.todo.domain.TodoNotFoundException;
 import com.koo.todo.domain.TodoRepository;
-import com.koo.todo.utils.timelistener.string.CommaSeparator;
+import com.koo.utils.string.CommaSeparator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
