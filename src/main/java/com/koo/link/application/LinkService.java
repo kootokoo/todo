@@ -15,10 +15,11 @@ public class LinkService {
     @Autowired
     private LinkRepository linkRepository;
 
-    public List<Long> getLinkedTodoList(Long linkId) {
-//        List<Link> byLinkId = linkRepository.findByLinkId(linkId).get();
-//        return byLinkId.stream().map(link -> link.getLinkedId()).collect(Collectors.toList());
-        return null;
+    public List<Long> getLinkedIdListByTodoId(Long todoId) {
+        //id를 참조로 가지고 있는 대상을 조회 한다.
+        List<Link> byLinkedId = linkRepository.findByLinkedId(todoId);
+        //id를 참조하고 있는 to_do ids를 반환 한다.
+        return byLinkedId.stream().map(Link::getTodoId).collect(Collectors.toList());
     }
 
     public void deleteLink(Long linkId) {
@@ -26,5 +27,4 @@ public class LinkService {
 
 //        byLinkId.ifPresent(() -> new AlreadLinkedTodoExist("앞선 todor가 존재합니다."));
     }
-
 }

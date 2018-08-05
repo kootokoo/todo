@@ -1,7 +1,9 @@
 package com.koo.todo.application;
 
 import com.google.common.collect.Lists;
+import com.koo.link.application.LinkService;
 import com.koo.link.domain.Link;
+import com.koo.todo.application.exception.CannotChangeTobeDoneException;
 import com.koo.todo.application.vo.RequestAddTodo;
 import com.koo.todo.application.vo.RequestEditTodo;
 import com.koo.todo.application.vo.ResponseTodo;
@@ -25,8 +27,8 @@ public class TodoService {
     @Autowired
     private TodoRepository todoRepository;
 
-//    @Autowired
-//    private LinkService linkService;
+    @Autowired
+    private LinkService linkService;
 
     public Page<ResponseTodo> getTodoList(Pageable listRequest) {
         return todoRepository.findAll(listRequest).map(ResponseTodo::new);
@@ -84,8 +86,15 @@ public class TodoService {
     @Transactional
     public void changeToDone(long todoId) {
         Todo found = getTodoById(todoId);
-        found.done();
-        todoRepository.save(found);
+        List<Long> linkedIdListByTodoId = linkService.getLinkedIdListByTodoId(todoId);
+
+        if(linkedIdListByTodoId.isEmpty()) {
+            found.markDoneAt();
+            todoRepository.save(found);
+        } else {
+            throw new CannotChangeTobeDoneException(linkedIdListByTodoId.toString()+"가 존재하여 done 처리 할 수 없습니다.");
+        }
+
     }
 
     private Todo getTodoById(long todoId) {

@@ -1,7 +1,7 @@
 var main = {
     init : function () {
         var _this = this;
-        $('#btn-done').on('click', function (event) {
+        $('.btn-done').on('click', function (event) {
             _this.done(event);
         });
     },
@@ -15,8 +15,8 @@ var main = {
         }).done(function() {
             alert('할일이 done 되었습니다');
             location.reload();
-        }).fail(function (error) {
-            alert(error);
+        }).fail(function (data) {
+            alert(data.responseJSON.message);
         });
     }
 

@@ -6,4 +6,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LinkRepository extends JpaRepository<Link, Long> {
+    List<Link> findByLinkedId(Long todoId);
 }

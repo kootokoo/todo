@@ -30,8 +30,8 @@ public class Todo extends CreatedAndModifiedEntity {
 	@Column
 	private LocalDateTime doneAt;
 
-	public void done() {
-
+	public void markDoneAt() {
+		this.doneAt = LocalDateTime.now();
 	}
 
 	public void updateDescription(String desc) {
@@ -43,7 +43,7 @@ public class Todo extends CreatedAndModifiedEntity {
     }
 
 	public boolean isDone() {
-		return false;
+		return this.doneAt == null ? false : true;
 	}
 
 

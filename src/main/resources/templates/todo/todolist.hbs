@@ -22,11 +22,11 @@
                     <td class="text-center">{{this.desc}} {{this.linkList}}</td>
                     <td class="text-center">{{this.createdAt}}</td>
                     <td class="text-center">{{this.modifiedAt}}</td>
-                    {{#if this.isDone}}
+                    {{#if this.done}}
                         <td class="text-center">{{this.doneAt}}</td>
                     {{else}}
                         <td>
-                            <button type="button" class="btn btn-primary" id="btn-done" data-id="{{this.id}}">완료 처리</button>
+                            <button type="button" class="btn btn-primary btn-done" data-id="{{this.id}}">완료 처리</button>
                         </td>
                     {{/if}}
                     <td>

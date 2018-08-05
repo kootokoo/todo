@@ -16,7 +16,7 @@ public class ResponseTodo {
     private String createdAt;
     private String modifiedAt;
     private String doneAt;
-    private boolean isDone;
+    private boolean done;
 
     public ResponseTodo(Todo todo) {
         this.id = todo.getId();
@@ -25,7 +25,7 @@ public class ResponseTodo {
         this.createdAt = toStringDateTime(todo.getCreatedAt());
         this.modifiedAt = toStringDateTime(todo.getModifiedAt());
         this.doneAt = toStringDateTime(todo.getDoneAt());
-        this.isDone = todo.isDone();
+        this.done = todo.isDone();
     }
 
 
