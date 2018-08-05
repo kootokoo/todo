@@ -25,4 +25,8 @@ public class LinkService {
     public void deleteAllByTodoId(Long sourceTodoId) {
         linkRepository.deleteByTodoId(sourceTodoId);
     }
+
+    public List<Link> getLinkListByTodoId(Long sourceTodoId) {
+        return linkRepository.findByLinkedId(sourceTodoId);
+    }
 }

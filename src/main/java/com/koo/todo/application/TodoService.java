@@ -5,6 +5,7 @@ import com.koo.link.application.LinkService;
 import com.koo.link.domain.Link;
 import com.koo.todo.application.exception.CannotChangeTobeDoneException;
 import com.koo.todo.application.exception.CannotMakeLinkBySelf;
+import com.koo.todo.application.exception.MakeLinkCirculationException;
 import com.koo.todo.application.vo.RequestAddTodo;
 import com.koo.todo.application.vo.RequestEditTodo;
 import com.koo.todo.application.vo.ResponseTodo;
@@ -81,6 +82,8 @@ public class TodoService {
             List<Long> updateLinkIds = CommaSeparator.comma2list(linkListStr);
 
             //validation
+            checkCirculation(sourceTodoId,updateLinkIds);
+
             checkContainSelfId(sourceTodoId, updateLinkIds);
             checkIsAllExist(updateLinkIds);
 
@@ -92,6 +95,21 @@ public class TodoService {
         }
 
     }
+
+    private void checkCirculation(Long sourceTodoId, List<Long> updateLinkIds) {
+        List<Link> linkedByTodoId = linkService.getLinkListByTodoId(sourceTodoId);
+
+        List<Long> canMakeCycleId = linkedByTodoId.stream()
+                .map(Link::getTodoId)
+                .filter(todoId -> updateLinkIds.contains(todoId))
+                .collect(Collectors.toList());
+
+        if(!canMakeCycleId.isEmpty()) {
+            throw new MakeLinkCirculationException(canMakeCycleId.toString() + "가 순환참조 됩니다.");
+        }
+
+    }
+
     private void deleteAllByTodoId(Long sourceTodoId) {
         linkService.deleteAllByTodoId(sourceTodoId);
     }
@@ -136,7 +154,7 @@ public class TodoService {
             found.markDoneAt();
             return todoRepository.save(found).getId();
         } else {
-            throw new CannotChangeTobeDoneException(linkedIdListByTodoId.toString() + "가 존재하여 done 처리 할 수 없습니다.");
+            throw new CannotChangeTobeDoneException(linkedIdListByTodoId.toString() + "가 done 되지 않았습니다");
         }
 
     }
