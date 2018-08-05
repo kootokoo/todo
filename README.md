@@ -40,4 +40,4 @@ trouble shooting
 ###
 demo
 
-!demo(https://github.com/kootokoo/todo/blob/master/demo.gif)
+![demo](https://github.com/kootokoo/todo/blob/master/demo.gif)
