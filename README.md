@@ -40,4 +40,4 @@ trouble shooting
 ###
 demo
 
-![Alt Text](https://github.com/kootokoo/todo/raw/master/path/to/demo.gif)
+!demo(https://github.com/kootokoo/todo/blob/master/demo.gif)
