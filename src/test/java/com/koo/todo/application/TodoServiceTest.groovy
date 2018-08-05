@@ -1,5 +1,6 @@
 package com.koo.todo.application
 
+import com.koo.todo.domain.Todo
 import com.koo.todo.domain.TodoNotFoundException
 import com.koo.todo.domain.TodoRepository
 import spock.lang.Specification
@@ -13,7 +14,7 @@ class TodoServiceTest extends Specification {
     def "링크 하려는 아이디들이 존재하는지 여부 확인"() {
         given:
         def 링크할Ids = [1L, 2L, 3L]
-        def 디비에저장되어있는Ids = [1L, 2L]
+        def 디비에저장되어있는Ids = [new Todo(id:1L), new Todo(id:2L)]
         def 미존재_ids = [3L]
         todoRepository.findAllById(링크할Ids) >> 디비에저장되어있는Ids
 

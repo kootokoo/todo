@@ -1,5 +1,6 @@
 package com.koo.timelistener.string
 
+import com.koo.utils.string.CommaSeparator
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -18,6 +19,7 @@ class CommaSeparatorTest extends Specification {
         DESC      | input   | output
         "정상 입력 값" | "1,2,3" | [1L, 2L, 3L]
         "정상 입력 값" | "1,2,"  | [1L, 2L]
+        "정상 입력 값" | "1"  | [1L]
         "정상 입력 값" | ""  | []
     }
 

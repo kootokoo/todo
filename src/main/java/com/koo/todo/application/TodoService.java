@@ -35,7 +35,7 @@ public class TodoService {
     @Transactional
     public Long add(RequestAddTodo requestAddTodo) {
         List<Link> linkList = makeLinkList(requestAddTodo);
-        // save todo
+
         Todo newTodo = Todo.builder()
                 .desc(requestAddTodo.getDesc())
                 .link(linkList)
@@ -44,27 +44,32 @@ public class TodoService {
         return todoRepository.save(newTodo).getId();
     }
 
-    private void checkIsAllExist(List<Long> todoIds) {
-        List<Todo> foundTodoList = todoRepository.findAllById(todoIds);
-        List<Long> nonExistIds = todoIds.stream().filter(target -> !foundTodoList.contains(target))
+    private void checkIsAllExist(List<Long> requestLinkIds) {
+        List<Long> nonExistId = Lists.newArrayList(requestLinkIds);
+        List<Todo> allById = todoRepository.findAllById(requestLinkIds);
+        List<Long> foundTodoId = allById.stream()
+                .map(Todo::getId)
                 .collect(Collectors.toList());
 
-        if (!nonExistIds.isEmpty()) {
-            throw new TodoNotFoundException("존재하지 않는 링크가 포함되어 있습니다 id : " +nonExistIds.toString());
+        nonExistId.removeAll(foundTodoId);
+        if (!nonExistId.isEmpty()) {
+            throw new TodoNotFoundException("존재하지 않는 링크가 포함되어 있습니다 id : " +nonExistId.toString());
         }
 
     }
 
     private List<Link> makeLinkList(RequestAddTodo requestAddTodo) {
-        List<Long> linkIdList = CommaSeparator.comma2list(requestAddTodo.getLinks());
-        checkIsAllExist(linkIdList);
+        if(requestAddTodo.getLinks().isEmpty()) {
+            return null;
+        } else {
+            List<Long> linkIdList = CommaSeparator.comma2list(requestAddTodo.getLinks());
+            checkIsAllExist(linkIdList);
 
-        List<Link> linkList = Lists.newArrayList();
-
-        for (Long linkId : linkIdList) {
-            linkList.add(new Link());
+            return linkIdList.stream()
+                    .map(todoId -> new Link(todoId))
+                    .collect(Collectors.toList());
         }
-        return linkList;
+
     }
 
     @Transactional
