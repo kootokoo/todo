@@ -4,7 +4,22 @@ var main = {
         $('#btn_edit').on('click', function () {
             _this.edit();
         });
+        $('.bts_show_edit_modal').on('click', function () {
+            _this.set_modal_data(event);
+        });
     },
+    set_modal_data: function() {
+        const showModalButton = $(event.currentTarget);
+        const id = showModalButton.data("id");
+        const desc = showModalButton.data("desc");
+        const links = showModalButton.data("links");
+
+
+        $("#edit_id").val(id);
+        $("#edit_desc").val(desc);
+        $("#edit_links").val(links);
+    }
+    ,
     edit : function () {
         var data = {
             id : $('#edit_id').val(),

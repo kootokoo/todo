@@ -1,6 +1,8 @@
 <div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTodoModal">수정</button>
+    <button type="button" class="btn btn-primary bts_show_edit_modal" data-toggle="modal" data-target="#editTodoModal"
+            data-id="{{this.id}}" data-desc="{{this.desc}}" data-links="{{this.links}}">수정</button>
 </div>
+
 <div class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="editTodoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -14,11 +16,11 @@
                 <form>
                     <div class="form-group">
                         <label for="edit_id">id</label>
-                        <input type="text" class="form-control" id="edit_id" value="{{this.id}}" >
+                        <input type="text" class="form-control" id="edit_id"  >
                     </div>
                     <div class="form-group">
                         <label for="edit_desc">할일</label>
-                        <input type="text" class="form-control" id="edit_desc" placeholder="할일을 입력하세요" value="{{this.desc}}" >
+                        <input type="text" class="form-control" id="edit_desc" placeholder="할일을 입력하세요" >
                     </div>
                     <div class="form-group">
                         <label for="edit_links"> link ids </label>

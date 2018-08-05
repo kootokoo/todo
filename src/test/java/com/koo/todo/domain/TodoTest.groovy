@@ -22,22 +22,4 @@ class TodoTest extends Specification {
 
     }
 
-    @Unroll
-    def "is done 여부 파악 테스트. condition : #DESC"(){
-        given:
-        def todo = new Todo(doneAt: DONE_AT)
-
-        when:
-        def result = todo.isDone()
-
-        then:
-        result == EXPECT
-
-        where:
-        DESC | DONE_AT |EXPECT
-        "done 시간이 존재 " | LocalDateTime.now() | true
-        "done 시간이 미존재 " | null | false
-
-
-    }
 }
