@@ -1,7 +1,7 @@
 var main = {
     init : function () {
         var _this = this;
-        $('#btn-edit').on('click', function () {
+        $('#btn_edit').on('click', function () {
             _this.edit();
         });
     },
