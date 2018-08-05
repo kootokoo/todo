@@ -84,13 +84,13 @@ public class TodoService {
     }
 
     @Transactional
-    public void changeToDone(long todoId) {
+    public Todo changeToDone(long todoId) {
         Todo found = getTodoById(todoId);
         List<Long> linkedIdListByTodoId = linkService.getLinkedIdListByTodoId(todoId);
 
         if(linkedIdListByTodoId.isEmpty()) {
             found.markDoneAt();
-            todoRepository.save(found);
+            return todoRepository.save(found);
         } else {
             throw new CannotChangeTobeDoneException(linkedIdListByTodoId.toString()+"가 존재하여 done 처리 할 수 없습니다.");
         }

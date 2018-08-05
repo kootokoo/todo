@@ -22,7 +22,7 @@ class TodoRepositoryTest extends Specification {
         def result = todoRepository.findById(todo.getId())
 
         then:
-        result.get().description == description
+        result.get().desc == description
 
     }
 
