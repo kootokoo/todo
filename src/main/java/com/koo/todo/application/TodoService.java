@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -120,18 +121,12 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
-    private List<Long> getRemovedList(List<Long> source, List<Long> target) {
-        List<Long> removed = Lists.newArrayList(source);
-        removed.removeAll(target);
-        return removed;
-    }
-
     @Transactional
     public Long edit(RequestEditTodo requestEditTodo) {
+        long id = requestEditTodo.getId();
+        Todo found = getTodoById(id);
 
-        Todo found = getTodoById(requestEditTodo.getId());
-
-        List<Link> updatableLinkList = getUpdatableLinkList(requestEditTodo.getId(), requestEditTodo.getLinks());
+        List<Link> updatableLinkList = getUpdatableLinkList(id, requestEditTodo.getLinks());
 
         found.updateDescription(requestEditTodo.getDesc());
         found.updateLinks(updatableLinkList);
@@ -147,24 +142,21 @@ public class TodoService {
     @Transactional
     public Long changeToDone(long todoId) {
         Todo found = getTodoById(todoId);
-        List<Long> linkedIdListByTodoId = linkService.getLinkedIdListByTodoId(todoId);
-        List<Long> nonDoneStatusList = todoRepository.findIdByIdInAndDoneAtNull(linkedIdListByTodoId);
+        List<Long> linkedIdList = linkService.getLinkedIdListByTodoId(todoId);
+        List<Long> notDoneTodoIdList = todoRepository.findIdsNotDoneYet(linkedIdList);
 
-        if (nonDoneStatusList.isEmpty()) {
+        if (canBeDone(notDoneTodoIdList)) {
             found.markDoneAt();
             return todoRepository.save(found).getId();
         } else {
-            throw new CannotChangeTobeDoneException(linkedIdListByTodoId.toString() + "가 done 되지 않았습니다");
+            throw new CannotChangeTobeDoneException(notDoneTodoIdList.toString() + "가 done 되지 않았습니다");
         }
 
     }
 
-    private boolean canBeDone(List<Todo> todos) {
-        return getDoneCount(todos) == todos.size();
-    }
 
-    private long getDoneCount(List<Todo> todos) {
-        return todos.stream().map(Todo::isDone).count();
+    private boolean canBeDone(List<Long> nonDoneStatusList) {
+        return nonDoneStatusList.isEmpty();
     }
 
 

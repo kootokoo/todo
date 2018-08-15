@@ -7,28 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 public class TodoController {
     @Autowired
     private TodoService todoService;
 
     @GetMapping("/")
-    public ModelAndView main(ModelAndView mnv, @PageableDefault(size = 5) Pageable pageable ) {
-        return getAll(mnv, pageable);
+    public String main(Model model, @PageableDefault(size = 5) Pageable pageable ) {
+        return getAll(model, pageable);
     }
 
-    @GetMapping("/list")
-    public ModelAndView getAll(ModelAndView mnv, @PageableDefault(size = 5) Pageable pageable) {
+    @GetMapping("/todos")
+    public String getAll(Model model, @PageableDefault(size = 5) Pageable pageable) {
         Page<ResponseTodo> todoPage = todoService.getTodoList(pageable);
-        mnv.setViewName("todo/todo");
-        mnv.addObject("todoList", todoPage.getContent());
-        mnv.addObject("pagination", Pagination.from(todoPage.getTotalPages(), todoPage.getNumber()));
-        mnv.addObject("contentSize", todoPage.getContent().size());
+        model.addAttribute("todoList", todoPage.getContent());
+        model.addAttribute("pagination", Pagination.from(todoPage.getTotalPages(), todoPage.getNumber()));
+        model.addAttribute("contentSize", todoPage.getTotalElements());
 
-        return mnv;
+        return "todo/todo";
     }
 
 

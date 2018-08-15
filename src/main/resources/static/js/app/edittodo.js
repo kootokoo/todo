@@ -1,4 +1,4 @@
-var main = {
+var edittodo = {
     init : function () {
         var _this = this;
         $('#btn_edit').on('click', function () {
@@ -18,8 +18,7 @@ var main = {
         $("#edit_id").val(id);
         $("#edit_desc").val(desc);
         $("#edit_links").val(links);
-    }
-    ,
+    },
     edit : function () {
         var data = {
             id : $('#edit_id').val(),
@@ -27,8 +26,8 @@ var main = {
             links: $('#edit_links').val()
         };
         $.ajax({
-            type: 'POST',
-            url: '/api/edit',
+            type: 'PUT',
+            url: '/api/todo',
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
@@ -41,5 +40,5 @@ var main = {
     }
 };
 
-main.init();
+edittodo.init();
 

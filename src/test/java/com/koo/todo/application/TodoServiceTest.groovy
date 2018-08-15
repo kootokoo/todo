@@ -43,7 +43,7 @@ class TodoServiceTest extends Specification {
         todoRepository.findById(targetTodoId) >> Optional.of(savedTodo)
         todoRepository.save(_) >> savedTodo
         linkService.getLinkedIdListByTodoId(targetTodoId) >> target에링크된참조
-        todoRepository.findIdByIdInAndDoneAtNull(target에링크된참조) >> []
+        todoRepository.findIdsNotDoneYet(target에링크된참조) >> []
 
         when:
         def result = todoService.changeToDone(targetTodoId)
@@ -74,20 +74,20 @@ class TodoServiceTest extends Specification {
     def "done이 안된 참조가 있을 경우 done 할 수 없다"() {
         given:
         def targetTodoId = 1L
-        def target에링크된Id = [2L, 3L]
-        def done안된todoId = [2L, 3L]
+        def target에링크된Id = [2L, 3L, 4L]
+        def done안된todoId = [3L]
         def savedTodo = new Todo(id: targetTodoId)
         todoRepository.findById(targetTodoId) >> Optional.of(savedTodo)
         todoRepository.save(_) >> savedTodo
         linkService.getLinkedIdListByTodoId(targetTodoId) >> target에링크된Id
-        todoRepository.findIdByIdInAndDoneAtNull(target에링크된Id) >> [done안된todoId]
+        todoRepository.findIdsNotDoneYet(target에링크된Id) >> done안된todoId
 
         when:
-        def result = todoService.changeToDone(targetTodoId)
+        todoService.changeToDone(targetTodoId)
 
         then:
         CannotChangeTobeDoneException ex = thrown()
-        ex.message == target에링크된Id.toString() + "가 done 되지 않았습니다"
+        ex.message == done안된todoId.toString() + "가 done 되지 않았습니다"
     }
 
     @Unroll

@@ -7,25 +7,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
+@RequestMapping(value = "/api/todo")
 public class TodoRestController {
     @Autowired
     private TodoService todoService;
 
 
-    @PostMapping("/api/add")
+    @PostMapping
     public Long addTodo(@RequestBody @Valid RequestAddTodo requestAddTodo) {
         return todoService.add(requestAddTodo);
     }
 
-    @PostMapping("/api/edit")
+    @PutMapping
     public Long editTodo(@RequestBody @Valid RequestEditTodo requestAddTodo) {
         return todoService.edit(requestAddTodo);
     }
 
-    @RequestMapping(value="/api/done/{id}", method=RequestMethod.GET, produces="application/json")
-    public Long doneTodo(@PathVariable Long id) {
+    @DeleteMapping("/done/{id}")
+    public Long doneTodo(@PathVariable @NotNull Long id) {
         return todoService.changeToDone(Long.valueOf(id));
     }
 

@@ -1,4 +1,4 @@
-var main = {
+var newtodo = {
     init : function () {
         var _this = this;
         $('#btn_save').on('click', function () {
@@ -13,7 +13,7 @@ var main = {
 
         $.ajax({
             type: 'POST',
-            url: '/api/add',
+            url: '/api/todo',
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
@@ -27,4 +27,4 @@ var main = {
 
 };
 
-main.init();
+newtodo.init();

@@ -1,5 +1,6 @@
 package com.koo.todo.domain
 
+import com.koo.link.domain.Link
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
@@ -9,7 +10,7 @@ class TodoRepositoryTest extends Specification {
     @Autowired
     TodoRepository todoRepository
 
-    def cleanup(){
+    def cleanup() {
         todoRepository.deleteAll()
     }
 
@@ -24,6 +25,22 @@ class TodoRepositoryTest extends Specification {
         then:
         result.get().desc == description
 
+    }
+
+    def "entity generate id number test"() {
+        given:
+        def description = "description"
+        def link = new Link(1L)
+        def todo = Todo.builder()
+                .desc(description)
+                .linkList([link])
+                .build()
+        when:
+        def result = todoRepository.save(todo)
+
+        then:
+        result.getId() == 1L
+        result.getLinkList().get(0).getId() == 1L
     }
 
 

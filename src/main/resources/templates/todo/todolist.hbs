@@ -4,8 +4,8 @@
             <h2 class="panel-title">todo list</h2>
         </div>
         <table class="table table-striped table-hover table-bordered">
+            <h4>total : {{contentSize}} </h4>
             <thead class="thead-strong">
-
             <th>id</th>
             <th>desc</th>
             <th>createdAt</th>
@@ -29,7 +29,7 @@
                         <td class="text-center">{{this.doneAt}}</td>
                     {{else}}
                         <td>
-                            <button type="button" class="btn btn-primary btn-done" data-id="{{this.id}}">완료 하기</button>
+                            <button type="button" class="btn btn-primary btn_done" data-id="{{this.id}}">완료 하기</button>
                         </td>
                     {{/if}}
                     <td>
