@@ -21,6 +21,7 @@ class CommaSeparatorTest extends Specification {
         "정상 입력 값" | "1,2,"  | [1L, 2L]
         "정상 입력 값" | "1"  | [1L]
         "정상 입력 값" | ""  | []
+        "정상 입력 값" | "1,"  | [1L]
         "정상 입력 값" | null  | []
     }
 

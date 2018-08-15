@@ -27,11 +27,11 @@ class TodoServiceTest extends Specification {
         todoRepository.findAllById(링크할Ids) >> 디비에저장되어있는Ids
 
         when:
-        todoService.checkIsAllExist(링크할Ids)
+        todoService.checkIsAllExistIds(링크할Ids)
 
         then:
         TodoNotFoundException ex = thrown()
-        ex.message == "존재하지 않는 링크가 포함되어 있습니다 id : " + 미존재_ids.toString()
+        ex.message == "존재하지 않는 todo 번호가 포함되어 있습니다 id : " + 미존재_ids.toString()
 
     }
 
@@ -125,6 +125,5 @@ class TodoServiceTest extends Specification {
         DESC  | TODO_ID | LINK_LIST
         "비정상" | 1L      | [1L, 2L, 3L]
     }
-
 
 }

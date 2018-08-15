@@ -30,6 +30,4 @@ public class TodoRestController {
     public Long doneTodo(@PathVariable @NotNull Long id) {
         return todoService.changeToDone(Long.valueOf(id));
     }
-
-
 }

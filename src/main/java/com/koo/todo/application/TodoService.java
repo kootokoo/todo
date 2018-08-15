@@ -1,6 +1,5 @@
 package com.koo.todo.application;
 
-import com.google.common.collect.Lists;
 import com.koo.link.application.LinkService;
 import com.koo.link.domain.Link;
 import com.koo.todo.application.exception.CannotChangeTobeDoneException;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,17 +47,23 @@ public class TodoService {
         return todoRepository.save(newTodo).getId();
     }
 
-    private void checkIsAllExist(List<Long> requestLinkIds) {
-        List<Long> nonExistId = Lists.newArrayList(requestLinkIds);
-        List<Todo> allById = todoRepository.findAllById(requestLinkIds);
-        List<Long> foundTodoId = allById.stream()
-                .map(Todo::getId)
+    private void checkIsAllExistIds(List<Long> requestLinkIds) {
+        List<Long> savedTodoIds = getTodoIds(requestLinkIds);
+
+        List<Long> nonExistId = requestLinkIds.stream()
+                .filter(id -> !savedTodoIds.contains(id))
                 .collect(Collectors.toList());
 
-        nonExistId.removeAll(foundTodoId);
         if (!nonExistId.isEmpty()) {
-            throw new TodoNotFoundException("존재하지 않는 링크가 포함되어 있습니다 id : " + nonExistId.toString());
+            throw new TodoNotFoundException("존재하지 않는 todo 번호가 포함되어 있습니다 id : " + nonExistId.toString());
         }
+    }
+
+    private List<Long> getTodoIds(List<Long> requestLinkIds) {
+        List<Todo> savedTodos = todoRepository.findAllById(requestLinkIds);
+        return savedTodos.stream()
+                .map(Todo::getId)
+                .collect(Collectors.toList());
     }
 
     private List<Link> makeLinkList(String linkListStr) {
@@ -69,7 +73,7 @@ public class TodoService {
             //extract linkIds
             List<Long> linkIds = CommaSeparator.comma2list(linkListStr);
             //validation
-            checkIsAllExist(linkIds);
+            checkIsAllExistIds(linkIds);
             //make new links
             return makeLinks(linkIds);
         }
@@ -84,9 +88,8 @@ public class TodoService {
 
             //validation
             checkCirculation(sourceTodoId,updateLinkIds);
-
             checkContainSelfId(sourceTodoId, updateLinkIds);
-            checkIsAllExist(updateLinkIds);
+            checkIsAllExistIds(updateLinkIds);
 
             //기존 저장된 old link Ids delete
             deleteAllByTodoId(sourceTodoId);
@@ -151,9 +154,7 @@ public class TodoService {
         } else {
             throw new CannotChangeTobeDoneException(notDoneTodoIdList.toString() + "가 done 되지 않았습니다");
         }
-
     }
-
 
     private boolean canBeDone(List<Long> nonDoneStatusList) {
         return nonDoneStatusList.isEmpty();
