@@ -8,6 +8,6 @@ import java.util.List;
 
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
-    @Query("SELECT id FROM Todo WHERE id in :ids AND doneAt IS NOT NULL ")
+    @Query("SELECT id FROM Todo WHERE id in :ids AND doneAt IS NULL ")
     List<Long> findIdsNotDoneYet(@Param("ids") List<Long> ids);
 }
